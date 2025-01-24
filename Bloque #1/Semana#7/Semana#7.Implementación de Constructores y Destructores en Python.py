@@ -1,4 +1,5 @@
 class Persona:
+
     """
     Clase que representa a una persona.
     Usa un constructor para inicializar su nombre y un destructor para despedirse.
