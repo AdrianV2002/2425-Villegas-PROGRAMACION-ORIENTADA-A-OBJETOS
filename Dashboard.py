@@ -1,21 +1,29 @@
 import os
 import subprocess
 import pyfiglet
+from colorama import Fore, Style
+
+
+def limpiar_consola():
+    print("\n" * 100)
 
 def mostrar_codigo(ruta_script):
     # Asegúrate de que la ruta al script es absoluta
     ruta_script_absoluta = os.path.abspath(ruta_script)
     try:
         with open(ruta_script_absoluta, 'r') as archivo:
+            limpiar_consola()
             codigo = archivo.read()
             print(f"\n--- Código de {ruta_script} ---\n")
             print(codigo)
             return codigo
     except FileNotFoundError:
-        print("El archivo no se encontró.")
+        limpiar_consola()
+        print(Fore.RED + "El archivo no se encontró.")
         return None
     except Exception as e:
-        print(f"Ocurrió un error al leer el archivo: {e}")
+        limpiar_consola()
+        print(Fore.RED + f"Ocurrió un error al leer el archivo: {e}")
         return None
 
 def ejecutar_codigo(ruta_script):
@@ -33,22 +41,23 @@ def mostrar_menu():
 
     unidades = {
         '1': 'Bloque #1',
-        '2': 'Bloque #2',
+        '2': 'Bloque #2'
     }
 
     while True:
         textomenu = pyfiglet.figlet_format("Menu Principal", font="cybermedium")
-        print(textomenu)
-        print("Selecciona una Carpeta para ver su contenido.")
+        print(Fore.LIGHTMAGENTA_EX + textomenu)
+        print(Fore.GREEN + "Selecciona una Carpeta para ver su contenido." + Style.RESET_ALL)
         print("")
         # Imprime las opciones del menú principal
         for key in unidades:
-            print(f"{key} - {unidades[key]}")
-        print("0 - Salir")
+            print(f"{Fore.CYAN}{key} - {Fore.LIGHTCYAN_EX}{unidades[key]}{Style.RESET_ALL}")
+        print(Fore.RED + "0 - " + Fore.LIGHTRED_EX + "Salir" + Style.RESET_ALL)
 
-        eleccion_unidad = input("Elige una unidad o '0' para salir: ")
+        eleccion_unidad = input(Fore.RED + "Elige una unidad o '0' para salir: " + Style.RESET_ALL)
         if eleccion_unidad == '0':
-            print("Saliendo del programa.")
+            limpiar_consola()
+            print(Fore.RED + "Saliendo del programa.")
             break
         elif eleccion_unidad in unidades:
             mostrar_sub_menu(os.path.join(ruta_base, unidades[eleccion_unidad]))
@@ -59,17 +68,19 @@ def mostrar_sub_menu(ruta_unidad):
     sub_carpetas = [f.name for f in os.scandir(ruta_unidad) if f.is_dir()]
 
     while True:
+        limpiar_consola()
         textosubmenu = pyfiglet.figlet_format("SubCarpeta", font="cybermedium")
-        print(textosubmenu)
-        print("Selecciona una SubCarpeta para ver su contenido.")
+        print(Fore.LIGHTMAGENTA_EX + textosubmenu)
+        print(Fore.GREEN + "Selecciona una SubCarpeta para ver su contenido.")
         print("")
         # Imprime las subcarpetas
         for i, carpeta in enumerate(sub_carpetas, start=1):
-            print(f"{i} - {carpeta}")
+            print(f"{Fore.CYAN}{i} - {Fore.LIGHTCYAN_EX}{carpeta}{Style.RESET_ALL}")
         print("0 - Regresar al menú principal")
 
         eleccion_carpeta = input("Elige una subcarpeta o '0' para regresar: ")
         if eleccion_carpeta == '0':
+            limpiar_consola()
             break
         else:
             try:
@@ -85,20 +96,23 @@ def mostrar_scripts(ruta_sub_carpeta):
     scripts = [f.name for f in os.scandir(ruta_sub_carpeta) if f.is_file() and f.name.endswith('.py')]
 
     while True:
+        limpiar_consola()
         textoscript = pyfiglet.figlet_format("Scripts", font="cybermedium")
-        print(textoscript)
-        print("Selecciona un Script para ejecutarlo.")
+        print(Fore.LIGHTMAGENTA_EX + textoscript)
+        print(Fore.GREEN + "Selecciona un Script para ejecutarlo.")
         print("")
         # Imprime los scripts
         for i, script in enumerate(scripts, start=1):
-            print(f"{i} - {script}")
+            print(f"{Fore.CYAN}{i} - {Fore.LIGHTCYAN_EX}{script}{Style.RESET_ALL}")
         print("0 - Regresar al submenú anterior")
         print("9 - Regresar al menú principal")
 
         eleccion_script = input("Elige un script, '0' para regresar o '9' para ir al menú principal: ")
         if eleccion_script == '0':
+            limpiar_consola()
             break
         elif eleccion_script == '9':
+            limpiar_consola()
             return  # Regresar al menú principal
         else:
             try:
