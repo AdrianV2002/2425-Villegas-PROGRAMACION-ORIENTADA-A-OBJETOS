@@ -32,13 +32,15 @@ def mostrar_menu():
     ruta_base = os.path.dirname(__file__)
 
     unidades = {
-        '1': 'Unidad 1',
-        '2': 'Unidad 2'
+        '1': 'Bloque #1',
+        '2': 'Bloque #2',
     }
 
     while True:
         textomenu = pyfiglet.figlet_format("Menu Principal", font="cybermedium")
         print(textomenu)
+        print("Selecciona una Carpeta para ver su contenido.")
+        print("")
         # Imprime las opciones del menú principal
         for key in unidades:
             print(f"{key} - {unidades[key]}")
@@ -57,7 +59,10 @@ def mostrar_sub_menu(ruta_unidad):
     sub_carpetas = [f.name for f in os.scandir(ruta_unidad) if f.is_dir()]
 
     while True:
-        print("\nSubmenú - Selecciona una subcarpeta")
+        textosubmenu = pyfiglet.figlet_format("SubCarpeta", font="cybermedium")
+        print(textosubmenu)
+        print("Selecciona una SubCarpeta para ver su contenido.")
+        print("")
         # Imprime las subcarpetas
         for i, carpeta in enumerate(sub_carpetas, start=1):
             print(f"{i} - {carpeta}")
@@ -80,7 +85,10 @@ def mostrar_scripts(ruta_sub_carpeta):
     scripts = [f.name for f in os.scandir(ruta_sub_carpeta) if f.is_file() and f.name.endswith('.py')]
 
     while True:
-        print("\nScripts - Selecciona un script para ver y ejecutar")
+        textoscript = pyfiglet.figlet_format("Scripts", font="cybermedium")
+        print(textoscript)
+        print("Selecciona un Script para ejecutarlo.")
+        print("")
         # Imprime los scripts
         for i, script in enumerate(scripts, start=1):
             print(f"{i} - {script}")
