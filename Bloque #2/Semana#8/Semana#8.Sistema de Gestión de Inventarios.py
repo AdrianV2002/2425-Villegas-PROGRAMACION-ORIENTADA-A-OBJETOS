@@ -34,9 +34,15 @@ class Inventario:
         self.cargar_datos()
 
     def guardar_datos(self):
-        with open(self.archivo, "w") as file:
-            for producto in self.productos:
-                file.write(f"{producto.id_producto} | Nombre: {producto.nombre} | Cantidad: {producto.cantidad} | Precio: ${producto.precio}\n")
+        try:
+            with open(self.archivo, "w") as file:
+                for producto in self.productos:
+                    file.write(f"{producto.id_producto},{producto.nombre},{producto.cantidad},{producto.precio}\n")
+            print("Datos guardados exitosamente.")
+        except PermissionError:
+            print("Error: No se tienen permisos para escribir en el archivo.")
+        except Exception as e:
+            print(f"Error al guardar los datos: {e}")
 
     def cargar_datos(self):
         try:
@@ -46,8 +52,11 @@ class Inventario:
                     if len(datos) == 4:
                         id_producto, nombre, cantidad, precio = datos
                         self.productos.append(Producto(id_producto, nombre, int(cantidad), float(precio)))
+            print("Datos cargados exitosamente.")
         except FileNotFoundError:
-            self.productos = []
+            print("El archivo no se encontró. Se creará uno nuevo al guardar.")
+        except Exception as e:
+            print(f"Error al cargar los datos: {e}")
 
     def agregar_producto(self, producto):
         self.productos.append(producto)
@@ -61,7 +70,13 @@ class Inventario:
                 print(producto)
 
     def eliminar_producto(self, id_producto):
-        pass
+        for producto in self.productos:
+            if producto.get_id() == id_producto:
+                self.productos.remove(producto)
+                self.guardar_datos()
+                print(f"Producto {id_producto} eliminado exitosamente.")
+                return
+        print(f"Producto con ID {id_producto} no encontrado.")
 
 
 def menu():
@@ -84,6 +99,7 @@ def menu():
             cantidad = int(input("Cantidad: "))
             precio = float(input("Precio: "))
             inventario.agregar_producto(Producto(id_producto, nombre, cantidad, precio))
+            print("Producto agregado exitosamente.")
 
         elif opcion == "2":
             id_producto = input("ID del producto a eliminar: ")
@@ -97,11 +113,12 @@ def menu():
             nueva_cantidad = int(nueva_cantidad) if nueva_cantidad else None
             nuevo_precio = float(nuevo_precio) if nuevo_precio else None
 
-            inventario.actualizar_producto(id_producto, nueva_cantidad, nuevo_precio)
+            # Aquí se debe implementar la lógica para actualizar el producto.
+            # Necesitarás agregar un método de actualización en la clase Inventario.
 
         elif opcion == "4":
             nombre = input("Nombre del producto a buscar: ")
-            resultados = inventario.buscar_por_nombre(nombre)
+            resultados = [producto for producto in inventario.productos if nombre.lower() in producto.get_nombre().lower()]
             if resultados:
                 for producto in resultados:
                     print(producto)
