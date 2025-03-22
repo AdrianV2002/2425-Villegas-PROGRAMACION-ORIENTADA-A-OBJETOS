@@ -6,7 +6,7 @@ from tkcalendar import DateEntry
 class AgendaApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Agenda Personal")
+        self.root.title("Agenda Personal (Adrian Villegas)")
         self.root.geometry("700x400")
 
         self.frame_lista = tk.Frame(root)
