@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# Colores y estilos
+# Colores y estilos de los textos
 theme_bg = "#2C3E50"
 theme_fg = "#ECF0F1"
 button_bg = "#3498DB"
